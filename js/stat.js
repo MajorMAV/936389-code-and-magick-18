@@ -8,7 +8,6 @@ window.renderStatistics = function (ctx, names, times) {
   var CONGRATULATION_X = 20;
   var CONGRATULATION_Y = 20;
   var LINE_HEIGHT = 20;
-  var GISTOGRAM_X = 20;
   var GISTOGRAM_Y = 90;
   var GISTOGRAM_HEIGHT = 150;
   var COLUMN_WIDTH = 40;
@@ -27,7 +26,6 @@ window.renderStatistics = function (ctx, names, times) {
   ctx.fillRect(CLOUD_X, CLOUD_Y, CLOUD_WIDTH, CLOUD_HEIGHT);
   ctx.strokeStyle = TEXT_COLOR;
   ctx.strokeRect(CLOUD_X, CLOUD_Y, CLOUD_WIDTH, CLOUD_HEIGHT);
-
 
   var getXInsideGamePlace = function (x) {
     return CLOUD_X + x;
@@ -67,7 +65,10 @@ window.renderStatistics = function (ctx, names, times) {
       maxTime = times[i];
     }
   }
-
+  // Ширина гистонраммы
+  var gistogramWidth = names.length * (COLUMN_WIDTH + COLUMN_WHITESPASE) - COLUMN_WHITESPASE;
+  // Начальная координата X гистограммы
+  var gistogramX = (CLOUD_WIDTH - gistogramWidth) / 2;
   // Рисуем гистограмму
   for (i = 0; i < names.length; i++) {
     // Задаем цвет для легенды
@@ -75,7 +76,7 @@ window.renderStatistics = function (ctx, names, times) {
     // Вычисляем высоту столбца
     var columnHeight = getColumnHeight(times[i], maxTime);
     // Ищем начальную точку столбца
-    var columnX = getXInsideGamePlace(GISTOGRAM_X + i * (COLUMN_WIDTH + COLUMN_WHITESPASE));
+    var columnX = getXInsideGamePlace(gistogramX + i * (COLUMN_WIDTH + COLUMN_WHITESPASE));
     var columnY = getYInsideGamePlace(getColumnY(columnHeight));
     // Пишем легенду столбца
     ctx.fillText(names[i], columnX, getYInsideGamePlace(GISTOGRAM_Y + GISTOGRAM_HEIGHT + LEGENT_MARGIN_TOP));
