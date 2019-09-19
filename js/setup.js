@@ -32,8 +32,6 @@ var createWizards = function (count) {
   return wizardArray;
 };
 
-
-
 // Инициализирует элемент отображения волшебника
 var createWizardElement = function (template, optionsSource) {
   var clone = template.cloneNode(true);
@@ -65,7 +63,7 @@ document.querySelector('.setup').classList.remove('hidden');
 
 // Вставляем эмеленты отображения волшебников в документ
 document.querySelector('.setup-similar-list')
-  .appendChild(createDocumentFragment(wizardTemplate,wizards));
+  .appendChild(createDocumentFragment(wizardTemplate, wizards));
 
 // Показываем волшебников
 document.querySelector('.setup-similar').classList.remove('hidden');
