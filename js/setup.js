@@ -7,6 +7,9 @@ var SECOND_NAMES = ['да Марья', 'Верон', 'Мирабелла', 'Ва
 var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
 var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
 
+var ENTER_KEY = 13;
+var ESC_KEY = 27;
+
 
 // Выдает случайный элемент массива
 var getRandomElement = function (array) {
@@ -58,12 +61,59 @@ var wizardTemplate = document.querySelector('#similar-wizard-template')
   .content
   .querySelector('.setup-similar-item');
 
-// Показываем окно настроек
-document.querySelector('.setup').classList.remove('hidden');
 
+// Показывает окно настроек
 // Вставляем эмеленты отображения волшебников в документ
 document.querySelector('.setup-similar-list')
   .appendChild(createDocumentFragment(wizardTemplate, wizards));
 
-// Показываем волшебников
-document.querySelector('.setup-similar').classList.remove('hidden');
+var openSetup = function () {
+  var setup = document.querySelector('.setup');
+  setup.classList.remove('hidden');
+  // Показываем волшебников
+  setup.querySelector('.setup-similar').classList.remove('hidden');
+  var setupClose = setup.querySelector('.setup-close');
+  setupClose.addEventListener('click', setupCloseClickHandler);
+  setupClose.addEventListener('keydown', setupCloseKeydownHandler);
+};
+
+// Скрывает окно настроек
+var closeSetup = function () {
+  var setup = document.querySelector('.setup')
+  setup.classList.add('hidden');
+  var setupClose = setup.querySelector('.setup-close');
+  setupClose.removeEventListener('click', setupCloseClickHandler);
+  setupClose.removeEventListener('keydown', setupCloseKeydownHandler);
+};
+
+var setupOpenClickHandler = function (evt) {
+  openSetup();
+};
+
+var setupOpenKeydownHandler = function (evt) {
+  if (evt.keyCode === ENTER_KEY) {
+    openSetup();
+  }
+};
+
+var setupCloseClickHandler = function (evt) {
+  closeSetup();
+};
+
+var setupCloseKeydownHandler = function (evt) {
+  if (evt.keyCode === ENTER_KEY) {
+    closeSetup();
+  }
+};
+
+var documnetKeydownHandler = function (evt) {
+  if (evt.keyCode === ESC_KEY) {
+    closeSetup();
+  }
+};
+
+var setupOpenBlock = document.querySelector('.setup-open');
+setupOpenBlock.addEventListener('click', setupOpenClickHandler);
+setupOpenBlock.addEventListener('keydown',setupOpenKeydownHandler);
+document.addEventListener('keydown', documnetKeydownHandler);
+
