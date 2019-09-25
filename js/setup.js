@@ -116,7 +116,10 @@ var documnetKeydownHandler = function (evt) {
 };
 
 var setupSubmitClickHandler = function (evt) {
-  document.querySelector('.setup-wizard-form').submit();
+  var form = document.querySelector('.setup-wizard-form');
+  if (form.checkValidity()) {
+    form.submit();
+  }
 };
 
 var setupOpenBlock = document.querySelector('.setup-open');
