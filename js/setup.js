@@ -62,11 +62,11 @@ var wizardTemplate = document.querySelector('#similar-wizard-template')
   .querySelector('.setup-similar-item');
 
 
-// Показывает окно настроек
 // Вставляем эмеленты отображения волшебников в документ
 document.querySelector('.setup-similar-list')
-  .appendChild(createDocumentFragment(wizardTemplate, wizards));
+.appendChild(createDocumentFragment(wizardTemplate, wizards));
 
+// Показывает окно настроек
 var openSetup = function () {
   var setup = document.querySelector('.setup');
   setup.classList.remove('hidden');
@@ -107,7 +107,8 @@ var setupCloseKeydownHandler = function (evt) {
 };
 
 var documnetKeydownHandler = function (evt) {
-  if (evt.keyCode === ESC_KEY) {
+  if (evt.keyCode === ESC_KEY &&
+    document.querySelector('.setup-user-name') !== document.activeElement) {
     closeSetup();
   }
 };
