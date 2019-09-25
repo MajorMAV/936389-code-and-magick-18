@@ -6,6 +6,7 @@ var FIRST_NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'К�
 var SECOND_NAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
 var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
 var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
+var FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
 
 var ENTER_KEY = 13;
 var ESC_KEY = 27;
@@ -80,7 +81,7 @@ var openSetup = function () {
 
 // Скрывает окно настроек
 var closeSetup = function () {
-  var setup = document.querySelector('.setup')
+  var setup = document.querySelector('.setup');
   setup.classList.add('hidden');
   var setupClose = setup.querySelector('.setup-close');
   setupClose.removeEventListener('click', setupCloseClickHandler);
@@ -88,7 +89,7 @@ var closeSetup = function () {
   setup.querySelector('.setup-submit').removeEventListener('click', setupSubmitClickHandler);
 };
 
-var setupOpenClickHandler = function (evt) {
+var setupOpenClickHandler = function () {
   openSetup();
 };
 
@@ -98,7 +99,7 @@ var setupOpenKeydownHandler = function (evt) {
   }
 };
 
-var setupCloseClickHandler = function (evt) {
+var setupCloseClickHandler = function () {
   closeSetup();
 };
 
@@ -115,16 +116,55 @@ var documnetKeydownHandler = function (evt) {
   }
 };
 
-var setupSubmitClickHandler = function (evt) {
+var setupSubmitClickHandler = function () {
   var form = document.querySelector('.setup-wizard-form');
   if (form.checkValidity()) {
     form.submit();
   }
 };
 
+var getIndexGenerator = function (maxNumber) {
+  var index = 0;
+  return function () {
+    if (index >= maxNumber) {
+      index = 0;
+    } else {
+      index++;
+    }
+    return index;
+  };
+};
+
+var setWizadrElementColor = function (wizardElement, color, property) {
+  switch (property) {
+    case 'background':
+      wizardElement.style.backgroundColor = color;
+      return;
+    default:
+      wizardElement.style.fill = color;
+  }
+};
+
+var createHandler = function (wizardElement, values, property) {
+  var getIndex = getIndexGenerator(values.length);
+  return function () {
+    setWizadrElementColor(wizardElement, values[getIndex()], property);
+  };
+};
+
+var wizardEyesBlock = document.querySelector(' .setup-wizard .wizard-eyes');
+var wizardCoat = document.querySelector(' .setup-wizard .wizard-coat');
+var fireball = document.querySelector('.setup-fireball-wrap');
+
+var wizardEyesClickHandler = createHandler(wizardEyesBlock, EYES_COLORS);
+var wizardCoatClickHandler = createHandler(wizardCoat, COAT_COLORS);
+var fireballClickHandler = createHandler(fireball, FIREBALL_COLORS, 'background');
+
 var setupOpenBlock = document.querySelector('.setup-open');
 setupOpenBlock.addEventListener('click', setupOpenClickHandler);
-setupOpenBlock.addEventListener('keydown',setupOpenKeydownHandler);
+setupOpenBlock.addEventListener('keydown', setupOpenKeydownHandler);
 document.addEventListener('keydown', documnetKeydownHandler);
 
-
+wizardEyesBlock.addEventListener('click', wizardEyesClickHandler);
+wizardCoat.addEventListener('click', wizardCoatClickHandler);
+fireball.addEventListener('click', fireballClickHandler);
