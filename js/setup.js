@@ -75,6 +75,7 @@ var openSetup = function () {
   var setupClose = setup.querySelector('.setup-close');
   setupClose.addEventListener('click', setupCloseClickHandler);
   setupClose.addEventListener('keydown', setupCloseKeydownHandler);
+  setup.querySelector('.setup-submit').addEventListener('click', setupSubmitClickHandler);
 };
 
 // Скрывает окно настроек
@@ -84,6 +85,7 @@ var closeSetup = function () {
   var setupClose = setup.querySelector('.setup-close');
   setupClose.removeEventListener('click', setupCloseClickHandler);
   setupClose.removeEventListener('keydown', setupCloseKeydownHandler);
+  setup.querySelector('.setup-submit').removeEventListener('click', setupSubmitClickHandler);
 };
 
 var setupOpenClickHandler = function (evt) {
@@ -113,8 +115,13 @@ var documnetKeydownHandler = function (evt) {
   }
 };
 
+var setupSubmitClickHandler = function (evt) {
+  document.querySelector('.setup-wizard-form').submit();
+};
+
 var setupOpenBlock = document.querySelector('.setup-open');
 setupOpenBlock.addEventListener('click', setupOpenClickHandler);
 setupOpenBlock.addEventListener('keydown',setupOpenKeydownHandler);
 document.addEventListener('keydown', documnetKeydownHandler);
+
 
