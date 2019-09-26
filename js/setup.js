@@ -48,9 +48,9 @@ var createWizardElement = function (template, optionsSource) {
 // Наолняем DocumentFragment элементами отображения волшебников
 var createDocumentFragment = function (template, options) {
   var docFragment = document.createDocumentFragment();
-  for (var i = 0; i < options.length; i++) {
-    docFragment.appendChild(createWizardElement(template, options[i]));
-  }
+  options.forEach(function (option) {
+    docFragment.appendChild(createWizardElement(template, option));
+  });
   return docFragment;
 };
 
