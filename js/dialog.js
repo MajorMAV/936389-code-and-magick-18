@@ -80,7 +80,7 @@
 
     var dragged = false;
 
-    var uploadMousemoveHandler = function (moveEvt) {
+    var mouseMoveHandler = function (moveEvt) {
       moveEvt.preventDefault();
 
       dragged = true;
@@ -99,7 +99,7 @@
       setup.style.top = (setup.offsetTop - shift.y) + 'px';
     };
 
-    var updloadMouseupHandler = function (upEvt) {
+    var mouseUpHandler = function (upEvt) {
       upEvt.preventDefault();
 
       var uploadClickHandler = function (clkEvt) {
@@ -111,13 +111,13 @@
         upload.addEventListener('click', uploadClickHandler);
       }
 
-      upload.removeEventListener('mousemove', uploadMousemoveHandler);
-      upload.removeEventListener('mouseup', updloadMouseupHandler);
+      document.removeEventListener('mousemove', mouseMoveHandler);
+      document.removeEventListener('mouseup', mouseUpHandler);
     };
 
 
-    upload.addEventListener('mousemove', uploadMousemoveHandler);
-    upload.addEventListener('mouseup', updloadMouseupHandler);
+    document.addEventListener('mousemove', mouseMoveHandler);
+    document.addEventListener('mouseup', mouseUpHandler);
   };
 
   upload.addEventListener('mousedown', uploadMousedownHandler);
