@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var INIT_WINDOW_TOP = '';
+  var INIT_WINDOW_LEFT = '';
 
   var setup = document.querySelector('.setup');
   var setupClose = setup.querySelector('.setup-close');
@@ -10,8 +12,8 @@
   var upload = setup.querySelector('.upload');
 
   var initWindowStartPosition = function () {
-    setup.style.left = '';
-    setup.style.top = '';
+    setup.style.left = INIT_WINDOW_LEFT;
+    setup.style.top = INIT_WINDOW_TOP;
   };
 
   // Показывает окно настроек
