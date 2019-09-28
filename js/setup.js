@@ -8,9 +8,10 @@
   var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
   var FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
 
-  var ENTER_KEY = 13;
-  var ESC_KEY = 27;
-
+  window.setup = {
+    ENTER_KEY: 13,
+    ESC_KEY: 27
+  };
 
   // Выдает случайный элемент массива
   var getRandomElement = function (array) {
@@ -52,62 +53,6 @@
       docFragment.appendChild(createWizardElement(template, option));
     });
     return docFragment;
-  };
-
-  // Показывает окно настроек
-  var openSetup = function () {
-    var setup = document.querySelector('.setup');
-    setup.classList.remove('hidden');
-    // Показываем волшебников
-    setup.querySelector('.setup-similar').classList.remove('hidden');
-    var setupClose = setup.querySelector('.setup-close');
-    setupClose.addEventListener('click', setupCloseClickHandler);
-    setupClose.addEventListener('keydown', setupCloseKeydownHandler);
-    setup.querySelector('.setup-submit').addEventListener('click', setupSubmitClickHandler);
-  };
-
-  // Скрывает окно настроек
-  var closeSetup = function () {
-    var setup = document.querySelector('.setup');
-    setup.classList.add('hidden');
-    var setupClose = setup.querySelector('.setup-close');
-    setupClose.removeEventListener('click', setupCloseClickHandler);
-    setupClose.removeEventListener('keydown', setupCloseKeydownHandler);
-    setup.querySelector('.setup-submit').removeEventListener('click', setupSubmitClickHandler);
-  };
-
-  var setupOpenClickHandler = function () {
-    openSetup();
-  };
-
-  var setupOpenKeydownHandler = function (evt) {
-    if (evt.keyCode === ENTER_KEY) {
-      openSetup();
-    }
-  };
-
-  var setupCloseClickHandler = function () {
-    closeSetup();
-  };
-
-  var setupCloseKeydownHandler = function (evt) {
-    if (evt.keyCode === ENTER_KEY) {
-      closeSetup();
-    }
-  };
-
-  var documnetKeydownHandler = function (evt) {
-    if (evt.keyCode === ESC_KEY &&
-      document.querySelector('.setup-user-name') !== document.activeElement) {
-      closeSetup();
-    }
-  };
-
-  var setupSubmitClickHandler = function () {
-    var form = document.querySelector('.setup-wizard-form');
-    if (form.checkValidity()) {
-      form.submit();
-    }
   };
 
   var getIndexGenerator = function (maxNumber) {
@@ -156,11 +101,6 @@
   var wizardEyesClickHandler = createHandler(wizardEyesBlock, EYES_COLORS);
   var wizardCoatClickHandler = createHandler(wizardCoat, COAT_COLORS);
   var fireballClickHandler = createHandler(fireball, FIREBALL_COLORS, 'background');
-
-  var setupOpenBlock = document.querySelector('.setup-open');
-  setupOpenBlock.addEventListener('click', setupOpenClickHandler);
-  setupOpenBlock.addEventListener('keydown', setupOpenKeydownHandler);
-  document.addEventListener('keydown', documnetKeydownHandler);
 
   wizardEyesBlock.addEventListener('click', wizardEyesClickHandler);
   wizardCoat.addEventListener('click', wizardCoatClickHandler);
