@@ -6,7 +6,7 @@
 
   var setup = document.querySelector('.setup');
   var setupClose = setup.querySelector('.setup-close');
-  var setupSubmit = setup.querySelector('.setup-submit');
+  var setupForm = document.querySelector('.setup-wizard-form');
   var userName = document.querySelector('.setup-user-name');
   var setupOpen = document.querySelector('.setup-open');
   var upload = setup.querySelector('.upload');
@@ -24,15 +24,18 @@
     setup.querySelector('.setup-similar').classList.remove('hidden');
     setupClose.addEventListener('click', setupCloseClickHandler);
     setupClose.addEventListener('keydown', setupCloseKeydownHandler);
-    setupSubmit.addEventListener('click', setupSubmitClickHandler);
+    setupForm.addEventListener('submit', setupFormSubmitHandler);
+
+    window.backend.load(window.setup.renderWizards, window.setup.showError);
   };
 
   // Скрывает окно настроек
   var closeSetup = function () {
     setup.classList.add('hidden');
+    window.setup.clearWizadrs();
     setupClose.removeEventListener('click', setupCloseClickHandler);
     setupClose.removeEventListener('keydown', setupCloseKeydownHandler);
-    setupSubmit.removeEventListener('click', setupSubmitClickHandler);
+    setupForm.removeEventListener('submit', setupFormSubmitHandler);
   };
 
   var setupOpenClickHandler = function () {
@@ -62,10 +65,10 @@
     }
   };
 
-  var setupSubmitClickHandler = function () {
-    var form = document.querySelector('.setup-wizard-form');
-    if (form.checkValidity()) {
-      form.submit();
+  var setupFormSubmitHandler = function (evt) {
+    evt.preventDefault();
+    if (setupForm.checkValidity()) {
+      window.backend.save(new FormData(setupForm), closeSetup, window.setup.showError);
     }
   };
 
