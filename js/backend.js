@@ -8,50 +8,51 @@
   }
 
   window.backend.load = function (onLoad, onError) {
-    var xhr = new XMLHttpRequest();
-    xhr.responseType = 'json';
-
-    xhr.addEventListener('load', function () {
-      if (xhr.status === 200) {
-        onLoad(xhr.response);
-      } else {
-        onError('Статус ответа: ' + xhr.status);
-      }
-    });
-    xhr.addEventListener('error', function () {
-      onError('Произошла ошибка соединения');
-    });
-
-    xhr.addEventListener('timeout', function () {
-      onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
-    });
-    xhr.timeout = 1000;
-
-    xhr.open('GET', BACKEND_URL + '/data');
-    xhr.send();
+    var requestOptions = {
+      method: 'GET',
+      url: BACKEND_URL + '/data',
+      loadHandler: onLoad,
+      errorHandler: onError
+    };
+    sendRequest(requestOptions);
   };
 
   window.backend.save = function (data, onLoad, onError) {
+    var requestOptions = {
+      data: data,
+      method: 'POST',
+      url: BACKEND_URL,
+      loadHandler: onLoad,
+      errorHandler: onError
+    };
+    sendRequest(requestOptions);
+  };
+
+  var sendRequest = function (option) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
       if (xhr.status === 200) {
-        onLoad(xhr.response);
+        option.loadHandler(xhr.response);
       } else {
-        onError('Статус ответа: ' + xhr.status);
+        option.errorHandler('Статус ответа: ' + xhr.status);
       }
     });
     xhr.addEventListener('error', function () {
-      onError('Произошла ошибка соединения');
+      option.errorHandler('Произошла ошибка соединения');
     });
 
     xhr.addEventListener('timeout', function () {
-      onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+      option.errorHandler('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
     xhr.timeout = 1000;
 
-    xhr.open('POST', BACKEND_URL);
-    xhr.send(data);
+    xhr.open(option.method, option.url);
+    if (option.method === 'POST' && option.data) {
+      xhr.send(option.data);
+    } else {
+      xhr.send();
+    }
   };
 })();
